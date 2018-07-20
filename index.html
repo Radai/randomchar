@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" />
+</head>
+
+<body>
+
+<div class="container-fluid mt-3">
+	<div class="row">
+		<div class="col-sm-12 col-md-6 mx-auto">
+			<div class="row">
+				<div class="col-3">
+					<div class="card">
+						<div class="card-header"><h3>Alignment</h3></div>
+						<div class="card-body">
+							<h5 id="alignment" class="card-title"></h5>
+						</div>
+					</div>
+				</div>
+				<div class="col-3">
+					<div class="card">
+						<div class="card-header"><h3>Race</h3></div>
+						<div class="card-body">
+							<h5 id="race" class="card-title"></h5>
+						</div>
+					</div>
+				</div>
+				<div class="col-3">
+					<div class="card">
+						<div class="card-header"><h3>Class</h3></div>
+						<div class="card-body">
+							<h5 id="class" class="card-title"></h5>
+						</div>
+					</div>
+				</div>
+				<div class="col-3">
+					<div class="card">
+						<div class="card-header"><h3>Background</h3></div>
+						<div class="card-body">
+							<h5 id="background" class="card-title"></h5>
+						</div>
+					</div>
+				</div>
+			</div>
+			<button type="button" id="generate-button" class="btn btn-primary btn-lg float-right m-3">Generate!</button>	
+		</div>
+	</div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript">
+	$(function(){
+		var races = [
+			{
+				name: "Aarakocra"
+			},
+			{
+				name: "Aasimar",
+				subraces: ["Protector", "Scourge", "Fallen"]
+			},
+			{
+				name: "Bugbear",
+				monstrous: true
+			},
+			{
+				name: "Centaur",
+				unearthedarcana: true
+			},
+			{
+				name: "Dragonborn"
+			}, 
+			{
+				name: "Dwarf",
+				subraces: ["Hill", "Mountain"],
+				variants: ["Duergar"]
+			},
+			{
+				name: "Elf",
+				subraces: ["High", "Wood"],
+				variants: ["Drow", "Eladrin"]
+			},
+			{
+				name: "Tiefling",
+				subraces: ["Feral", ""]
+			},
+			{
+				name: "Firbolg",
+				monstrous: true
+			},
+			{
+				name: "Genasi",
+				subraces: ["Water", "Fire", "Earth", "Air"]
+			},
+			{
+				name: "Gith",
+				variants: ["Githyanki", "Githzerai"],
+				monstrous: true
+			},
+			{
+				name: "Gnome",
+				subraces: ["Deep", "Forest", "Rock"]
+			},
+			{
+				name: "Goblin",
+				monstrous: true
+			},
+			{
+				name: "Goliath"
+			},
+			{
+				name: "Half-Elf"
+			},
+			{
+				name: "Halfling",
+				subraces: ["Lightfoot", "Stout", "Ghostwise"]
+			},
+			{
+				name: "Half-Orc"
+			},
+			{
+				name: "Hobgoblin",
+				monstrous: true
+			},
+			{
+				name: "Human"
+			},
+			{
+				name: "Kenku"
+			},
+			{
+				name: "Kobold",
+				monstrous: true
+			},
+			{
+				name: "Lizardfolk",
+				monstrous: true
+			},
+			{
+				name: "Minotaur",
+				unearthedarcana: true
+			},
+			{
+				name: "Orc",
+				monstrous: true
+			},
+			{
+				name: "Tabaxi"
+			},
+			{
+				name: "Triton"
+			},
+			{
+				name: "Yuan-Ti Pureblood",
+				monstrous: true
+			}
+		];
+		var classes = ["Barbarian", "Bard", "Blood Hunter", "Cleric", "Druid", "Fighter", "Monk", "Paladin", "Ranger", "Sorcerer", "Warlock", "Wizard"];
+		var alignments = ["Chaotic Good", "Chaotic Neutral", "Chaotic Evil", "Neutral Good", "True Neutral", "Neutral Evil", "Lawful Good", "Lawful Neutral", "Lawful Evil"];
+		var backgrounds = ["Acolyte", "Charlatan", "City Watch", "Clan Crafter", "Cloistered Scholar", "Courtier", "Criminal", "Entertainer", "Faction Agent", "Far Traveler", "Folk Hero", "Gladiator", "Guild Artisan", "Guild Merchant", "Haunted One", "Hermit", "Inheritor", "Investigator", "Knight", "Knight of the Order", "Mercenary Veteran", "Noble", "Outlander", "Pirate", "Sage", "Sailor", "Solider", "Spy", "Urban Bounty Hunter", "Urchin"];
+
+		$("#generate-button").click(function(e){
+			//grab alignment
+			var alignment = alignments[Math.floor(Math.random() * alignments.length)];
+			$("#alignment").text(alignment);
+
+			//grab race
+			var race = races[Math.floor(Math.random() * races.length)];
+			var raceName = "", range = 0;
+			if(race.subraces){
+				console.log("has subraces");
+				range += race.subraces.length;
+			}
+			if(race.variants){
+				console.log("has variants");
+				range += race.variants.length;
+			}
+			var pickedRace = Math.floor(Math.random() * range);
+			if(race.subraces && pickedRace < race.subraces.length){
+				raceName = race.subraces[pickedRace] + " " + race.name;
+			}
+			else if(race.variants) { //variant
+				var otherLength = race.subraces ? race.subraces.length : 0;
+				raceName = race.variants[pickedRace - otherLength];
+			}
+			if(race.subraces || race.variants)
+				$("#race").text(raceName);
+			else
+				$("#race").text(race.name);
+
+			//grab class
+			var cls = classes[Math.floor(Math.random() * classes.length)];
+			$("#class").text(cls);
+
+			//grab background
+			var bg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+			$("#background").text(bg);
+		});
+	});
+</script>
+</body>
+</html>

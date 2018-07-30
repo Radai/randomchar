@@ -54,7 +54,15 @@
 					</div>
 				</div>
 			</div>
-			<button type="button" id="generate-button" class="btn btn-primary btn-lg float-right m-3">Generate!</button>	
+			<div class="float-right">
+				<div class="form-check-inline">
+					<input class="form-check-input" type="checkbox" id="chkIncludeEvil">
+					<label class="form-check-label" for="chkIncludeEvil">
+						Include Evil Alignments
+					</label>
+				</div>
+				<button type="button" id="generate-button" class="btn btn-primary btn-lg m-3">Generate!</button>	
+			</div>
 		</div>
 	</div>
 </div>
@@ -168,23 +176,25 @@
 			}
 		];
 		var classes = ["Barbarian", "Bard", "Blood Hunter", "Cleric", "Druid", "Fighter", "Monk", "Paladin", "Ranger", "Sorcerer", "Warlock", "Wizard"];
-		var alignments = ["Chaotic Good", "Chaotic Neutral", "Chaotic Evil", "Neutral Good", "True Neutral", "Neutral Evil", "Lawful Good", "Lawful Neutral", "Lawful Evil"];
+		var alignments = ["Chaotic Good", "Chaotic Neutral", "Neutral Good", "True Neutral", "Lawful Good", "Lawful Neutral"];
+		var evilAlignments = ["Chaotic Evil", "Neutral Evil", "Lawful Evil"];
 		var backgrounds = ["Acolyte", "Charlatan", "City Watch", "Clan Crafter", "Cloistered Scholar", "Courtier", "Criminal", "Entertainer", "Faction Agent", "Far Traveler", "Folk Hero", "Gladiator", "Guild Artisan", "Guild Merchant", "Haunted One", "Hermit", "Inheritor", "Investigator", "Knight", "Knight of the Order", "Mercenary Veteran", "Noble", "Outlander", "Pirate", "Sage", "Sailor", "Solider", "Spy", "Urban Bounty Hunter", "Urchin"];
 
 		$("#generate-button").click(function(e){
+			var selectedAlignments = !$("#chkIncludeEvil").prop("checked") ? alignments : $(alignments).add(evilAlignments);
 			//grab alignment
-			var alignment = alignments[Math.floor(Math.random() * alignments.length)];
+			var alignment = selectedAlignments[Math.floor(Math.random() * selectedAlignments.length)];
 			$("#alignment").text(alignment);
 
 			//grab race
 			var race = races[Math.floor(Math.random() * races.length)];
 			var raceName = "", range = 0;
 			if(race.subraces){
-				console.log("has subraces");
+				// console.log("has subraces");
 				range += race.subraces.length;
 			}
 			if(race.variants){
-				console.log("has variants");
+				// console.log("has variants");
 				range += race.variants.length;
 			}
 			var pickedRace = Math.floor(Math.random() * range);
